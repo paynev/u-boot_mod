@@ -148,6 +148,11 @@ U_BOOT_CMD(tftpboot, 3, 1, do_tftpb,
 	   "boot image via network using TFTP protocol\n",
 	   "[address] [filename]\n"
 	   "\t- loads 'filename' at 'address' from TFTP server");
+	   
+U_BOOT_CMD(tftp, 3, 1, do_tftpb,
+	   "boot image via network using TFTP protocol\n",
+	   "[address] [filename]\n"
+	   "\t- loads 'filename' at 'address' from TFTP server");
 
 int do_tftpput(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 {

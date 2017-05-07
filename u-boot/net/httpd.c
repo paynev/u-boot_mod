@@ -85,14 +85,21 @@ int do_http_upgrade(const ulong size, const int upgrade_type){
 				backup_size);
 
 	} else if(upgrade_type == WEBFAILSAFE_UPGRADE_TYPE_FIRMWARE){
+		int fw_addr=0;
+		char *fw_addr_str;
+		fw_addr_str = getenv("fw_addr");
+		if (fw_addr_str == NULL)
+			fw_addr = WEBFAILSAFE_UPLOAD_KERNEL_ADDRESS;
+		else
+			fw_addr = simple_strtol(fw_addr_str, NULL, 16);
 
 		printf("\n\n****************************\n*    FIRMWARE UPGRADING    *\n* DO NOT POWER OFF DEVICE! *\n****************************\n\n");
 		sprintf(buf,
 				"erase 0x%lX +0x%lX; cp.b 0x%lX 0x%lX 0x%lX",
-				WEBFAILSAFE_UPLOAD_KERNEL_ADDRESS,
+				fw_addr,
 				size,
 				CONFIG_LOADADDR,
-				WEBFAILSAFE_UPLOAD_KERNEL_ADDRESS,
+				fw_addr,
 				size);
 
 	} else if(upgrade_type == WEBFAILSAFE_UPGRADE_TYPE_ART){

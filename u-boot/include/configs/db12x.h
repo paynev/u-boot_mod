@@ -32,7 +32,8 @@
 	#define CONFIG_QCA_GPIO_MASK_OUT_INIT_H	GPIO21 | GPIO22 |\
 						CONFIG_QCA_GPIO_MASK_LED_ACT_L
 
-#elif defined(CONFIG_FOR_TPLINK_WDR3500_V1)
+#elif defined(CONFIG_FOR_TPLINK_WDR3500_V1) ||\
+      defined(CONFIG_FOR_bm100_hq55)
 
 	#define CONFIG_QCA_GPIO_MASK_LED_ACT_L	GPIO11 | GPIO13 | GPIO14 |\
 						GPIO15 | GPIO18 | GPIO19 |\
@@ -96,6 +97,12 @@
 				"rootfstype=squashfs init=/sbin/init "\
 				"mtdparts=ath-nor0:256k(u-boot),64k(u-boot-env),6336k(rootfs),1408k(uImage),64k(mib0),64k(art)"
 
+#elif defined(CONFIG_FOR_bm100_hq55)
+
+	#define CONFIG_BOOTARGS	"console=ttyS0,115200 root=31:02 "\
+				"rootfstype=squashfs init=/sbin/init "\
+				"mtdparts=ath-nor0:128k(u-boot),1280k(uImage),14656k(rootfs)"\
+				",15936k@0x20000(firmware),256k(Product),64k(ART)"
 #elif defined(CONFIG_FOR_YUNCORE_CPE870)
 
 	#define CONFIG_BOOTARGS	"console=ttyS0,115200 root=31:02 "\
@@ -118,6 +125,8 @@
  */
 #if defined(CONFIG_FOR_YUNCORE_CPE870)
 	#define CFG_LOAD_ADDR		0x9F680000
+#elif defined(CONFIG_FOR_bm100_hq55)
+  #define CFG_LOAD_ADDR		0x9F020000
 #else
 	#define CFG_LOAD_ADDR		0x9F020000
 #endif
@@ -132,6 +141,10 @@
 #if defined(CONFIG_FOR_YUNCORE_CPE870)
 	#define CFG_ENV_ADDR		0x9F020000
 	#define CFG_ENV_SIZE		0xFC00
+	#define CFG_ENV_SECT_SIZE	0x10000
+#elif defined(CONFIG_FOR_bm100_hq55)
+  #define CFG_ENV_ADDR		0x9F01EC00
+	#define CFG_ENV_SIZE		0x1000
 	#define CFG_ENV_SECT_SIZE	0x10000
 #else
 	#define CFG_ENV_ADDR		0x9F01EC00
@@ -199,6 +212,8 @@
 /* Firmware size limit */
 #if defined(CONFIG_FOR_YUNCORE_CPE870)
 	#define WEBFAILSAFE_UPLOAD_LIMITED_AREA_IN_BYTES	(256 * 1024)
+#elif defined(CONFIG_FOR_bm100_hq55)
+	#define WEBFAILSAFE_UPLOAD_LIMITED_AREA_IN_BYTES	(192 * 1024)
 #else
 	#define WEBFAILSAFE_UPLOAD_LIMITED_AREA_IN_BYTES	(192 * 1024)
 #endif
@@ -221,6 +236,9 @@
 
 	#define CONFIG_QCA_PLL_IN_FLASH_BLOCK_OFFSET	0x10000
 	#define CONFIG_QCA_PLL_IN_FLASH_BLOCK_SIZE	0x10000
+#elif defined(CONFIG_FOR_bm100_hq55)
+	#define CONFIG_QCA_PLL_IN_FLASH_BLOCK_OFFSET	0x30000
+	#define CONFIG_QCA_PLL_IN_FLASH_BLOCK_SIZE	0x10000
 
 #endif
 
@@ -235,7 +253,10 @@
 
 #if defined(CONFIG_FOR_YUNCORE_CPE870)
 	#define CONFIG_UPG_SCRIPTS_FW_ADDR_HEX	0x9F020000
+#elif defined(CONFIG_FOR_bm100_hq55)
+	#define CONFIG_UPG_SCRIPTS_FW_ADDR_HEX	WEBFAILSAFE_UPLOAD_KERNEL_ADDRESS
 #endif
+
 
 /*
  * ===================

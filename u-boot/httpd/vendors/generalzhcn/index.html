@@ -1,0 +1,24 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Firmware update</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<div id="m">
+			<h1>固件升级</h1>
+			<p>你正在更新设备的固件。<br>请从本地选择对应的文件并点击<strong>更新</strong>按钮。你也可以升级<a href="uboot.html">U-Boot</a>和<a href="art.html">ART</a>。</p>
+			<form method="post" enctype="multipart/form-data"><input type="file" name="firmware"><input type="submit" value="更新"></form>
+			<div class="i w">
+				<strong>警告</strong>
+				<ul>
+					<li>更新过程中请不要切断路由器电源</li>
+					<li>如果一切顺利，路由会重启并从FLASH中启动新固件</li>
+					<li>你可以上传任何固件，所以请确保你选择的固件映像文件是为你的路由器准备的</li>
+				</ul>
+			</div>
+		</div>
+		<div id="f">You can find more information about this project on <a href="https://github.com/paynev/u-boot_mod" target="_blank">GitHub</a> , Forked from pepe2k.</div>
+	</body>
+</html>

@@ -430,6 +430,11 @@ int do_bootm(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 		print_uboot_ih((image_header_t *)addr);
 		memmove(&header, (char *)addr, sizeof(image_header_t));
 		break;
+	case 0x38162067:
+		tpl_type = 1;
+		print_uboot_ih((image_header_t *)addr);
+		memmove(&header, (char *)addr, sizeof(image_header_t));
+		break;
 	case TPL_IH_VERSION_V2:
 	case TPL_IH_VERSION_V3:
 	default:
@@ -597,6 +602,11 @@ int do_iminfo(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 		print_tpl_ih_v1(tpl_hdr);
 		break;
 	case IH_MAGIC:
+		print_uboot_ih((image_header_t *)addr);
+		memmove(&header, (char *)addr, sizeof(image_header_t));
+		break;
+	case 0x38162067:
+		tpl_type = 1;
 		print_uboot_ih((image_header_t *)addr);
 		memmove(&header, (char *)addr, sizeof(image_header_t));
 		break;

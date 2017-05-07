@@ -140,6 +140,7 @@ define config_init
   echo
 
   $(call echo_yellow,  Device vendor/model:\t$(call board_name,$(1)))
+  $(call echo_yellow,(_$(DEVICE_VENDOR)))
   $(if $(DEVICE_VENDOR), \
     $(call echo_yellow,  Custom recovery web:\tyes ($(DEVICE_VENDOR))), \
     $(call echo_yellow,  Custom recovery web:\tno) \
@@ -523,6 +524,14 @@ tp-link_tl-wa850re_v2: qca953x_common lsdk_kernel
 	@$(call define_add,CFG_ATH_GMAC_NMACS,2)
 	@$(MKCONFIG) -a ap143 mips mips ap143 ar7240 ar7240
 
+bm100_hq55: ar934x_common lsdk_kernel
+	@$(call config_init,100msh hq55,hq55,16,16,1,QCA_AR9344_SOC)
+	@$(call define_add,CONFIG_FOR_bm100_hq55,1)
+	@$(call define_add,CFG_ATHRS27_PHY,1)
+	@$(call define_add,CFG_AG7240_NMACS,2)
+	@$(call define_add,CONFIG_PCI,1)
+	@$(MKCONFIG) -a db12x mips mips db12x ar7240 ar7240
+
 tp-link_tl-wdr3500: ar934x_common lsdk_kernel
 	@$(call config_init,TP-Link TL-WDR3500,tl-wdr3500,8,16,1,QCA_AR9344_SOC)
 	@$(call define_add,CONFIG_FOR_TPLINK_WDR3500_V1,1)
@@ -541,7 +550,7 @@ tp-link_tl-wdr3600: ar934x_common lsdk_kernel
 	@$(MKCONFIG) -a db12x mips mips db12x ar7240 ar7240
 
 tp-link_tl-wdr43x0: ar934x_common lsdk_kernel
-	@$(call config_init,TP-Link TL-WDR43x0,tl-wdr43x0,8,16,1,QCA_AR9344_SOC)
+	@$(call config_init,TP-Link TL-WDR43x0,tl-wdr43x0,16,16,1,QCA_AR9344_SOC)
 	@$(call define_add,CONFIG_FOR_TPLINK_WDR43X0_V1,1)
 	@$(call define_add,CFG_ATHRS17_PHY,1)
 	@$(call define_add,CFG_AG7240_NMACS,1)

@@ -32,6 +32,8 @@ export BIN_DIR      = $(BUILD_TOPDIR)/bin
 export SUB_MAKE_CMD = $(MAKE) --silent --no-print-directory \
                       ARCH=mips V=1 SHELL=$(SHELL)
 
+export CONFIG_BOOTDELAY 5
+
 # ==========================================================================
 # You can override some default configuration options below or pass them on
 # command line, for example:
@@ -50,13 +52,16 @@ export SUB_MAKE_CMD = $(MAKE) --silent --no-print-directory \
 # IMG_LZMA =
 
 # Define _absolute_ path to your toolchain directory, for example:
-# export TOOLCHAIN_DIR:=/home/user/toolchain-mips_24kc_gcc-5.4.0_musl-1.1.15
-# export PATH:=$(TOOLCHAIN_DIR)/bin:$(PATH)
+export TOOLCHAIN_DIR:=/home/wangpan/openwrt/toolchain
+export PATH:=$(TOOLCHAIN_DIR)/bin:$(PATH)
+
+export MAKECMD=make ARCH=mips
 
 ifndef CROSS_COMPILE
   CROSS_COMPILE = mips-openwrt-linux-musl-
 endif
 export CROSS_COMPILE
+
 
 # By default, optimization for size (-Os) is enabled, set below option
 # to n or remove it if you want only basic optimization (-O/-O1)
@@ -171,6 +176,7 @@ endef
 # $(2): if set to 1, use LZMA
 # $(3): other parameters passed to subdir make
 define build
+  
   args="IMG_SIZE=$$((1024*$(call img_size,$(1)))) \
         IMG_LZMA=$(strip $(call is_lzma,$(2))) \
         $(strip $(3))"; \
@@ -185,7 +191,6 @@ define build
       $(call copy_img,u-boot,$(call img_size,$(1))) \
     ) \
   )
-
   $(if $(filter $(IMG_RAM),1),,$(call padded_img,$(1)))
   $(call final_img)
   $(call md5_sum)
@@ -264,9 +269,13 @@ yuncore_cpe830 \
 zbtlink_zbt-we1526:
 	@$(call build,256,1,ETH_CONFIG=_s27)
 
+bm100_hq55:
+	@$(call build,123,1,ETH_CONFIG=_s27 DEVICE_VENDOR=generalzhcn)
+
 tp-link_tl-wdr3600 \
 tp-link_tl-wdr43x0:
 	@$(call build,123,1,ETH_CONFIG=_s17)
+
 
 unwireddevices_unwired-one:
 	@$(call build,128,1,DEVICE_VENDOR=SE)
